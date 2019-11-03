@@ -1,8 +1,45 @@
 import React, { Component } from 'react';
 import Buscador from './componentes/Buscador';
 import Resultado from './componentes/Resultado';
+import NotificationSystem from 'react-notification-system';
+
+var style = {
+    NotificationItem: { // Override the notification item
+      DefaultStyle: { // Applied to every notification, regardless of the notification level
+        'border-radius': '5px',
+        'font-size': '20px',
+        'padding': '20px'
+      },
+      success: { // Applied only to the success notification item
+        color: 'black',
+        background: 'white',
+        'border-color': 'black'
+      }
+    },
+    Dismiss: {
+        DefaultStyle: {
+            'font-size': '25px',
+            background: 'none',
+            color: '#cecece',
+            'margin-top': '10px'
+          }
+        }
+  }
 
 class App extends Component {
+    notificationSystem = React.createRef();
+
+
+  addNotification = event => {
+    event.preventDefault();
+    const notification = this.notificationSystem.current;
+    notification.addNotification({
+    tittle: 'Hola',
+      message: 'Notification message',
+      level: 'success',
+      position: 'br'
+    });
+  };
 
     state = {
         termino : '',
@@ -67,6 +104,8 @@ class App extends Component {
         return ( 
         <div className = "app container" >
             <div className = "jumbotron" >
+                <button onClick={this.addNotification}>Add notification</button>
+                <NotificationSystem ref={this.notificationSystem} style={style}/>
                 <p className = "lead text-center" > Buscador de Imágenes < /p>
 
                 <Buscador 
